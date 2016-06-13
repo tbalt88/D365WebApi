@@ -1,0 +1,235 @@
+﻿<html>
+<head>
+    <title>
+        Web resource for test of Dynamics CRM Web API
+    </title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <style>
+        .wide {
+            width:100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>executeBoundAction</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><input type="text" class="wide" id="executeBoundActionType" placeholder="Type" /></li>
+            <li class="list-group-item"><input type="text" class="wide" id="executeBoundActionId" placeholder="Id" /></li>
+            <li class="list-group-item"><input type="text" class="wide" id="executeBoundActionName" placeholder="Action name" /></li>
+            <li class="list-group-item"><input type="text" class="wide" id="executeBoundActionParameters" placeholder="Action parameters" /></li>
+            <li class="list-group-item"><input type="button" id="executeBoundActionButton" value="Execute" /></li>
+        </ul>
+        <h2>executeUnboundAction</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><input type="text" class="wide" id="executeUnboundActionName" placeholder="Action name" /></li>
+            <li class="list-group-item"><input type="text" class="wide" id="executeUnboundActionParameters" placeholder="Action parameters" /></li>
+            <li class="list-group-item"><input type="button" id="executeUnboundActionButton" value="Execute" /></li>
+        </ul>
+        <h2>executeBoundFunction</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><input type="text" class="wide" id="executeBoundFunctionType" placeholder="Type" /></li>
+            <li class="list-group-item"><input type="text" class="wide" id="executeBoundFunctionId" placeholder="Id" /></li>
+            <li class="list-group-item"><input type="text" class="wide" id="executeBoundFunctionString" placeholder="Function" /></li>
+            <li class="list-group-item"><input type="button" id="executeBoundFunctionButton" value="Execute" /></li>
+        </ul>
+        <h2>executeUnboundFunction</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><input type="text" class="wide" id="executeUnboundFunctionString" placeholder="Function" /></li>
+            <li class="list-group-item"><input type="button" id="executeUnboundFunctionButton" value="Execute" /></li>
+        </ul>
+        <h2>createEntity</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><input type="text" class="wide" id="createEntityType" placeholder="Type" /></li>
+            <li class="list-group-item"><input type="text" class="wide" id="createEntityRecord" placeholder="Entity" /></li>
+            <li class="list-group-item"><input type="button" id="createEntityButton" value="Execute" /></li>
+        </ul>
+        <h2>deleteEntity</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><input type="text" class="wide" id="deleteEntityType" placeholder="Type" /></li>
+            <li class="list-group-item"><input type="text" class="wide" id="deleteEntityId" placeholder="Id" /></li>
+            <li class="list-group-item"><input type="button" id="deleteEntityButton" value="Execute" /></li>
+        </ul>
+        <h2>updateEntity</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><input type="text" class="wide" id="updateEntityType" placeholder="Type" /></li>
+            <li class="list-group-item"><input type="text" class="wide" id="updateEntityId" placeholder="Id" /></li>
+            <li class="list-group-item"><input type="text" class="wide" id="updateEntityRecord" placeholder="Entity" /></li>
+            <li class="list-group-item"><input type="button" id="updateEntityButton" value="Execute" /></li>
+        </ul>
+        <h2>retrieveEntity</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><input type="text" class="wide" id="retrieveEntityType" placeholder="Type" /></li>
+            <li class="list-group-item"><input type="text" class="wide" id="retrieveEntityId" placeholder="Id" /></li>
+            <li class="list-group-item"><input type="text" class="wide" id="retrieveEntityOptions" placeholder="Options" /></li>
+            <li class="list-group-item"><input type="button" id="retrieveEntityButton" value="Execute" /></li>
+        </ul>
+        <h2>retrieveMultiple</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><input type="text" class="wide" id="retrieveMultipleType" placeholder="Type" /></li>
+            <li class="list-group-item"><input type="text" class="wide" id="retrieveMultipleOptions" placeholder="Options" /></li>
+            <li class="list-group-item"><input type="button" id="retrieveMultipleButton" value="Execute" /></li>
+        </ul>
+    </div>
+    <script type="text/javascript" src="../../ClientGlobalContext.js.aspx"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/common/webAPI.REST.js"></script>
+    <script type="text/javascript">
+        var webAPI = webAPI || {};
+        webAPI.testResource = {};
+
+        webAPI.testResource.onLoad = function () {
+        };
+
+        webAPI.testResource.responseHandler = function (res) {
+            console.info("Success!");
+            console.dir(res);
+        }
+
+        webAPI.testResource.errorHandler = function (err) {
+            console.error("Error!");
+            console.dir(err);
+        };
+
+        webAPI.testResource.executeBoundAction = function () {
+            try {
+                var type = $("#executeBoundActionType").val();
+                var id = $("#executeBoundActionId").val();
+                var actionName = $("#executeBoundActionName").val();
+                var actionParameters = $("#executeBoundActionParameters").val();
+
+                if (actionParameters) {
+                    actionParameters = JSON.parse(actionParameters);
+                }
+
+                webAPI.REST.executeBoundAction(type, id, actionName, actionParameters).then(webAPI.testResource.responseHandler).catch(webAPI.testResource.errorHandler);
+
+            } catch (e) {
+                webAPI.testResource.errorHandler(e);
+            }
+        };
+
+        webAPI.testResource.executeUnboundAction = function () {
+            try {
+                var actionName = $("#executeUnboundActionName").val();
+                var actionParameters = $("#executeUnboundActionParameters").val();
+
+                if (actionParameters) {
+                    actionParameters = JSON.parse(actionParameters);
+                }
+
+                webAPI.REST.executeUnboundAction(actionName, actionParameters).then(webAPI.testResource.responseHandler).catch(webAPI.testResource.errorHandler);
+
+            } catch (e) {
+                webAPI.testResource.errorHandler(e);
+            }
+        };
+
+        webAPI.testResource.executeBoundFunction = function () {
+            try {
+                var type = $("#executeBoundFunctionType").val();
+                var id = $("#executeBoundFunctionId").val();
+                var functionString = $("#executeBoundFunctionString").val();
+
+                webAPI.REST.executeBoundFunction(type, id, functionString).then(webAPI.testResource.responseHandler).catch(webAPI.testResource.errorHandler);
+
+            } catch (e) {
+                webAPI.testResource.errorHandler(e);
+            }
+        };
+
+        webAPI.testResource.executeUnboundFunction = function () {
+            try {
+                var functionString = $("#executeUnboundFunctionString").val();
+
+                webAPI.REST.executeUnboundFunction(functionString).then(webAPI.testResource.responseHandler).catch(webAPI.testResource.errorHandler);
+
+            } catch (e) {
+                webAPI.testResource.errorHandler(e);
+            }
+        };
+
+        webAPI.testResource.createEntity = function () {
+            try {
+                var type = $("#createEntityType").val();
+                var entity = $("#createEntityRecord").val();
+
+                entity = JSON.parse(entity);
+
+                webAPI.REST.createEntity(type, entity).then(webAPI.testResource.responseHandler).catch(webAPI.testResource.errorHandler);
+
+            } catch (e) {
+                webAPI.testResource.errorHandler(e);
+            }
+        };
+
+        webAPI.testResource.deleteEntity = function () {
+            try {
+                var type = $("#deleteEntityType").val();
+                var id = $("#deleteEntityId").val();
+
+                webAPI.REST.deleteEntity(type, id).then(webAPI.testResource.responseHandler).catch(webAPI.testResource.errorHandler);
+
+            } catch (e) {
+                webAPI.testResource.errorHandler(e);
+            }
+        };
+
+        webAPI.testResource.updateEntity = function () {
+            try {
+                var type = $("#updateEntityType").val();
+                var id = $("#updateEntityId").val();
+                var entity = $("#updateEntityRecord").val();
+
+                entity = JSON.parse(entity);
+
+                webAPI.REST.updateEntity(type, id, entity).then(webAPI.testResource.responseHandler).catch(webAPI.testResource.errorHandler);
+
+            } catch (e) {
+                webAPI.testResource.errorHandler(e);
+            }
+        };
+
+        webAPI.testResource.retrieveEntity = function () {
+            try {
+                var type = $("#retrieveEntityType").val();
+                var id = $("#retrieveEntityId").val();
+                var options = $("#retrieveEntityOptions").val();
+
+                webAPI.REST.retrieveEntity(type, id, options).then(webAPI.testResource.responseHandler).catch(webAPI.testResource.errorHandler);
+
+            } catch (e) {
+                webAPI.testResource.errorHandler(e);
+            }
+        };
+
+        webAPI.testResource.retrieveMultiple = function () {
+            try {
+                var type = $("#retrieveMultipleType").val();
+                var options = $("#retrieveMultipleOptions").val();
+
+                webAPI.REST.retrieveMultiple(type, options).then(webAPI.testResource.responseHandler).catch(webAPI.testResource.errorHandler);
+
+            } catch (e) {
+                webAPI.testResource.errorHandler(e);
+            }
+        };
+
+        $(function () {
+
+            $("#executeBoundActionButton").click(webAPI.testResource.executeBoundAction);
+            $("#executeUnboundActionButton").click(webAPI.testResource.executeUnboundAction);
+            $("#executeBoundFunctionButton").click(webAPI.testResource.executeBoundFunction);
+            $("#executeUnboundFunctionButton").click(webAPI.testResource.executeUnboundFunction);
+            $("#createEntityButton").click(webAPI.testResource.createEntity);
+            $("#deleteEntityButton").click(webAPI.testResource.deleteEntity);
+            $("#updateEntityButton").click(webAPI.testResource.updateEntity);
+            $("#retrieveEntityButton").click(webAPI.testResource.retrieveEntity);
+            $("#retrieveMultipleButton").click(webAPI.testResource.retrieveMultiple);
+
+            webAPI.testResource.onLoad();
+        });
+    </script>
+</body>
+</html>
