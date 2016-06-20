@@ -66,7 +66,7 @@ webAPI.REST.executeBoundAction = function (type, id, actionName, actionParameter
 
     id = id ? '(' + id + ')' : '';
 
-    var url = this._webAPIPath() + type + 's' + id + '/' + 'Microsoft.Dynamics.CRM.' + actionName
+    var url = this._webAPIPath() + type + id + '/' + 'Microsoft.Dynamics.CRM.' + actionName
 
     var request = superagent.post(url);
 
@@ -128,7 +128,7 @@ webAPI.REST.executeBoundFunction = function (type, id, functionString, extraHead
 
     id = id ? '(' + id + ')' : '';
 
-    var url = this._webAPIPath() + type + 's' + id + '/' + 'Microsoft.Dynamics.CRM.' + functionString;
+    var url = this._webAPIPath() + type + id + '/' + 'Microsoft.Dynamics.CRM.' + functionString;
 
     var headers = this._defaultHeaders(extraHeaders);
 
@@ -174,7 +174,7 @@ webAPI.REST.createEntity = function (type, entity, extraHeaders) {
 
     var data = JSON.stringify(entity);
 
-    var url = this._webAPIPath() + type.toLowerCase() + 's';
+    var url = this._webAPIPath() + type;
 
     var headers = this._defaultHeaders(extraHeaders);
 
@@ -196,7 +196,7 @@ webAPI.REST.deleteEntity = function (type, id, extraHeaders) {
 
     var deferred = Q.defer();
 
-    var url = this._webAPIPath() + type.toLowerCase() + 's' + '(' + id + ')';
+    var url = this._webAPIPath() + type + '(' + id + ')';
 
     var headers = this._defaultHeaders(extraHeaders);
 
@@ -220,7 +220,7 @@ webAPI.REST.updateEntity = function (type, id, entity, extraHeaders) {
 
     var data = JSON.stringify(entity);
 
-    var url = this._webAPIPath() + type.toLowerCase() + 's' + '(' + id + ')';
+    var url = this._webAPIPath() + type + '(' + id + ')';
 
     var headers = this._defaultHeaders(extraHeaders);
 
@@ -242,11 +242,7 @@ webAPI.REST.retrieveEntity = function (type, id, options, extraHeaders) {
 
     var deferred = Q.defer();
 
-    var url = this._webAPIPath() + type.toLowerCase() + 's' + '(' + id + ')';
-
-    if (options && options.charAt(0) != '?') {
-        options = '?' + options;
-    }
+    var url = this._webAPIPath() + type + '(' + id + ')';
 
     url += options ? options : '';
 
@@ -271,11 +267,7 @@ webAPI.REST.retrieveMultiple = function (type, options, extraHeaders, _nextLink)
     var url = "";
 
     if (!_nextLink) {
-        url = this._webAPIPath() + type.toLowerCase() + 's';
-
-        if (options && options.charAt(0) != '?') {
-            options = '?' + options;
-        }
+        url = this._webAPIPath() + type;
 
         url += options ? options : '';
     }
@@ -312,7 +304,7 @@ webAPI.REST.associateEntities = function (parentType, parentId, childType, child
 
     var deferred = Q.defer();
 
-    var url = this._webAPIPath() + parentType + 's' + '(' + parentId + ')/' + relationshipName + '/$ref';
+    var url = this._webAPIPath() + parentType + '(' + parentId + ')/' + relationshipName + '/$ref';
     
     var data = {};
     data['@odata.id'] = this._webAPIPath() + childType + 's' + '(' + childId + ')';
@@ -336,7 +328,7 @@ webAPI.REST.diassociateEntities = function (parentType, parentId, childId, relat
 
     var deferred = Q.defer();
 
-    var url = this._webAPIPath() + parentType + 's' + '(' + parentId + ')/' + relationshipName + '(' + childId + ')/$ref';
+    var url = this._webAPIPath() + parentType + '(' + parentId + ')/' + relationshipName + '(' + childId + ')/$ref';
 
     var headers = this._defaultHeaders();
 
