@@ -70,6 +70,12 @@
             <li class="list-group-item"><input type="text" class="wide" id="retrieveMultipleOptions" placeholder="Options" /></li>
             <li class="list-group-item"><input type="button" id="retrieveMultipleButton" value="Execute" /></li>
         </ul>
+        <h2>executeFetchXml</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><input type="text" class="wide" id="executeFetchXmlType" placeholder="Type" /></li>
+            <li class="list-group-item"><input type="text" class="wide" id="executeFetchXmlXml" placeholder="Fetch XML" /></li>
+            <li class="list-group-item"><input type="button" id="executeFetchXmlButton" value="Execute" /></li>
+        </ul>
     </div>
     <script type="text/javascript" src="../../ClientGlobalContext.js.aspx"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
@@ -216,6 +222,18 @@
             }
         };
 
+        webAPI.testResource.executeFetchXml = function () {
+            try {
+                var type = $("#executeFetchXmlType").val();
+                var xml = $("#executeFetchXmlXml").val();
+
+                webAPI.REST.executeFetchXml(type, xml).then(webAPI.testResource.responseHandler).catch(webAPI.testResource.errorHandler);
+
+            } catch (e) {
+                webAPI.testResource.errorHandler(e);
+            }
+        };
+
         $(function () {
 
             $("#executeBoundActionButton").click(webAPI.testResource.executeBoundAction);
@@ -227,6 +245,7 @@
             $("#updateEntityButton").click(webAPI.testResource.updateEntity);
             $("#retrieveEntityButton").click(webAPI.testResource.retrieveEntity);
             $("#retrieveMultipleButton").click(webAPI.testResource.retrieveMultiple);
+            $("#executeFetchXmlButton").click(webAPI.testResource.executeFetchXml);
 
             webAPI.testResource.onLoad();
         });

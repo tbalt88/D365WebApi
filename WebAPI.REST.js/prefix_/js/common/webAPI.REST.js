@@ -300,6 +300,25 @@ webAPI.REST.retrieveMultiple = function (type, options, extraHeaders, _nextLink)
     return deferred.promise;
 };
 
+webAPI.REST.executeFetchXml = function (type, fetchXml, extraHeaders) {
+    var deferred = Q.defer();
+
+    var url = this._webAPIPath() + type + "?fetchXml=" + fetchXml;
+
+    var headers = this._defaultHeaders(extraHeaders);
+
+    superagent.get(url).set(headers).end(function (err, res) {
+        if (err) {
+            deferred.reject(err);
+        }
+        else {
+            deferred.resolve(res);
+        }
+    });
+
+    return deferred.promise;
+};
+
 webAPI.REST.associateEntities = function (parentType, parentId, childType, childId, relationshipName) {
 
     var deferred = Q.defer();
