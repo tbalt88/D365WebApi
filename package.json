@@ -1,0 +1,17 @@
+{
+    "name": "D365WebApi",
+    "description": "D365WebApi",
+    "authors": "Marius Solend",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "webpack",
+        "build-dev": "webpack",
+        "watch": "webpack --watch"
+    },
+    "dependencies": {
+        "superagent": "^4.0.0",
+        "webpack": "^4.27.1",
+        "webpack-cli": "^3.1.2",
+        "q": "^1.5.1"
+    }
+}
